@@ -174,8 +174,6 @@ class ConnectionManager
     public static function resolveLocationAlias($db_location)
     {
         return 'LIVE';
-        $alias_prop = "db.connection_manager.location_alias." . $db_location;
-        return \AVA\Util\Config::instance()->getProperty($alias_prop, $db_location);
     }
 
     /**
@@ -186,8 +184,6 @@ class ConnectionManager
     public static function getMode()
     {
         return 'development';
-        $property = "db.connection_manager.mode";
-        return \AVA\Util\Config::instance()->getProperty($property, "LIVE");
     }
 
     /**
@@ -198,10 +194,6 @@ class ConnectionManager
     private static function _getTimeLimit()
     {
         return 300;
-        $property = "db.connection_manager.time_limit";
-        return \AVA\Util\Config::instance()->getProperty(
-            $property, self::DEFAULT_TIME_LIMIT
-        );
     }
 
     /**
