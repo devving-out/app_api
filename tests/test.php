@@ -1,13 +1,10 @@
 <?php
 
+
 require_once '../scripts/autoload.php';
 
-$db = DB\PdoManager::instance('APP');
+$user = new User\AppUser(1);
 
-var_dump(
-    DB\PdoManager::instance('APP')->fetchOne(
-        'select username from users limit 1', array()
-    )
-);
+print_r($user->getLeads());
 
 ?>
