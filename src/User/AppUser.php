@@ -41,13 +41,30 @@ class AppUser
 
     protected function hashPassword($password)
     {
-        return sha1($password);
+        return hash('sha256', $password);
     }
 
     public function setUser($id)
     {
         if ($this->id != $id) {
+            $this->id = $id;
             $this->user = $this->getUser();
+        }
+    }
+
+    public function setUserByUsername($username)
+    {
+        $id = $this->db->fetchOne(
+            "SELECT id
+            FROM users
+            WHERE username = ?",
+            array($username)
+        );
+        if ($id) {
+            $this->id = $id;
+            $this->user = $this->getUser();
+        } else {
+            return false;
         }
     }
 
@@ -59,7 +76,7 @@ class AppUser
 
     public function validatePassword($password)
     {
-        return $this->hashPassword($this->user['password']) === $password;
+        return $this->hashPassword($password) === $this->user['password'];
     }
 
     public function update($updates)
@@ -91,7 +108,7 @@ class AppUser
             return false;
         }
 
-        $sql = "SELECT * FROM leads 
+        $sql = "SELECT * FROM leads
                 WHERE user_id = ?";
 
         return $this->db->fetchAll($sql, array($this->id));
@@ -115,3 +132,4 @@ class AppUser
 
 
 ?>
+
